@@ -32,7 +32,8 @@ def main_cli():
     parser.add_argument('--seed',
             action = 'store',
             type = arg_is_positive_int,
-            help = ('Seed for random number generator.'))
+            help = ('A positive integer for seeding the random number '
+                    'generator.'))
 
     args = parser.parse_args()
 
@@ -40,10 +41,15 @@ def main_cli():
     random_number_generator = random.Random()
     if not args.seed:
         # The user did not provide a seed for the random number generator, so
-        # we have to pick one
+        # we will pick one.
+        # We'll pick a random integer between 1 and a very large number
         args.seed = random.randint(1, 999999999)
     # Seed the random number generator
     random_number_generator.seed(args.seed)
+
+    # Let's output the seed that was used, so the results can be replicated
+    # later
+    sys.stdout.write("Random number seed: {0}\n".format(args.seed))
 
     # Randomly shuffle the elements provided by the user
     # The shuffle method modifies the input list, and so returns `None`.
